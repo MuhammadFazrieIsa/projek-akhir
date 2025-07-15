@@ -44,12 +44,6 @@
     </li>
 
     <li class="sidebar-item">
-      <a href="#" class="text-white text-decoration-none d-flex align-items-center">
-        <i class="fa-solid fa-sack-dollar me-2"></i> <span class="sidebar-text">KALKULASI GAJI</span>
-      </a>
-    </li>
-
-    <li class="sidebar-item">
       <a href="{{ route('karyawan.index') }}" class="text-white text-decoration-none d-flex align-items-center">
         <i class="fa-solid fa-table-columns me-2"></i> <span class="sidebar-text">DAFTAR KARYAWAN</span>
       </a>
@@ -76,7 +70,6 @@
                     <th>ID</th>
                     <th>Icon</th>
                     <th>Nama</th>
-                    <th>NIS</th>
                     <th>Jabatan</th>
                     <th>Jenis Kelamin</th>
                     <th>UID</th>
@@ -84,25 +77,24 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse ($karyawans as $karyawan)
+                @forelse ($users as $user)
                 <tr>
-                    <td>{{ $karyawan->id }}</td>
+                    <td>{{ $user->id }}</td>
                     <td class="text-center">
                       @php
-                          $iconUrl = $karyawan->jenis_kelamin === 'Laki-Laki'
+                          $iconUrl = $user->jenis_kelamin === 'Laki-Laki'
                               ? 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png'
                               : 'https://cdn-icons-png.flaticon.com/512/4140/4140051.png';
                       @endphp
-                      <img src="{{ $iconUrl }}" width="48" height="48" alt="Icon {{ $karyawan->jenis_kelamin }}" class="rounded-circle">
+                      <img src="{{ $iconUrl }}" width="48" height="48" alt="Icon {{ $user->jenis_kelamin }}" class="rounded-circle">
                   </td>
 
-                    <td>{{ $karyawan->nama }}</td>
-                    <td>{{ $karyawan->nis }}</td>
-                    <td>{{ $karyawan->jabatan }}</td>
-                    <td>{{ $karyawan->jenis_kelamin }}</td>
-                    <td>{{ $karyawan->uid }}</td>
+                    <td>{{ $user->name }}</td>
+                    <td>{{ $user->jabatan }}</td>
+                    <td>{{ $user->jenis_kelamin }}</td>
+                    <td>{{ $user->rfid_uid }}</td>
                     <td>
-                        <form action="{{ route('karyawan.destroy', $karyawan->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin hapus?')">
+                        <form action="{{ route('karyawan.destroy', $user->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin hapus?')">
                             @csrf
                             @method('DELETE')
                             <button class="btn btn-danger btn-sm">Hapus</button>
@@ -120,11 +112,11 @@
 
     <!-- Footer -->
     <div class="d-flex justify-content-between align-items-center mt-3">
-        <span class="content-with-sidebar badge bg-info text-dark">Info! Total Karyawan: {{ $karyawans->total() }}</span>
+        <span class="content-with-sidebar badge bg-info text-dark">Info! Total Karyawan: {{ $users->total() }}</span>
         <div class="content-with-sidebar d-flex align-items-center gap-3">
-            <span>Halaman: {{ $karyawans->currentPage() }}</span>
+            <span>Halaman: {{ $users->currentPage() }}</span>
             <nav>
-                {{ $karyawans->withQueryString()->links() }}
+                {{ $users->withQueryString()->links() }}
             </nav>
         </div>
     </div>

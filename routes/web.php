@@ -3,8 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
-use App\Http\Controllers\RfidController;
-use App\Http\Controllers\KaryawanController;
+
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\RfidFormController;
 use App\Http\Controllers\AbsenController;
 
@@ -39,15 +39,21 @@ Route::get('/dashboard3', function () {
     return view('projek.dashboard3');
 })->middleware('role:karyawan')->name('dashboard.karyawan');
 
-Route::get('/karyawan', [KaryawanController::class, 'index'])
+Route::get('/karyawan', [UserController::class, 'index'])
     ->middleware('role:admin')
     ->name('karyawan.index');
 
-Route::delete('/karyawan/{id}', [KaryawanController::class, 'destroy'])
+Route::delete('/karyawan/{id}', [UserController::class, 'destroy'])
     ->name('karyawan.destroy');
 
 Route::get('/profile', function () {
     return view('projek.profile');
 })->middleware('role:admin')->name('profil.1');
+
+use App\Http\Controllers\RfidController;
+
+Route::get('/rfid/form', [RfidController::class, 'showForm'])->name('rfid.form');
+Route::post('/rfid/store', [RfidController::class, 'storeRfidData'])->name('rfid.store');
+
 
 

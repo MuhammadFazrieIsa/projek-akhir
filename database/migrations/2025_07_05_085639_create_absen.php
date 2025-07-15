@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('absen', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
             $table->string('rfid_uid');
             $table->timestamp('kedatangan');
             $table->timestamp('kepulangan')->nullable(); // Make nullable
+            $table->string('status')->nullable();
         });
     }
 

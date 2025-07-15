@@ -38,6 +38,9 @@
           <button type="submit" class="btn btn-login w-100 py-2 mb-3">Login</button>
         </form>
 
+        <div class="text-center">
+          <small class="text-muted">Belum punya akun? <a href="{{ url('/rfid/form') }}">Daftar sekarang</a></small>
+        </div>
       </div>
 
       <!-- Right: Welcome Section -->

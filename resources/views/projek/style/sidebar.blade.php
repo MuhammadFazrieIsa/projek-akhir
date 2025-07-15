@@ -47,6 +47,13 @@
 .content-collapsed {
   margin-left: 60px;
 }
+  .card-box {
+      color: white;
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+      flex: 1;
+      min-width: 200px;
+    }
 
 </style>
 

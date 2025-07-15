@@ -2,8 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\RfidController;
-use App\Http\Controllers\AbsenController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -15,12 +15,6 @@ use App\Http\Controllers\AbsenController;
 |
 */
 
-
-
-// app/Http/Controllers/ArduinoController.php
-
-
-
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
@@ -30,5 +24,9 @@ Route::get('/ping', function () {
     return response()->json(['message' => 'API aktif']);
 });
 
-Route::post('/rfid', [RfidController::class, 'store']);
+use App\Http\Controllers\RfidController;
+Route::post('/rfid/uid', [RfidController::class, 'storeRfidUid']);
+Route::post('/rfid', [RfidController::class, 'storeRfidData']);
+
+use App\Http\Controllers\AbsenController;
 Route::post('/absen', [AbsenController::class, 'store']);

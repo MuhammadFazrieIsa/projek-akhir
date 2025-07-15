@@ -20,8 +20,9 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
-        'rfid',
+        'rfid_uid',
         'password',
+        'jenis_kelamin',
     ];
 
     /**

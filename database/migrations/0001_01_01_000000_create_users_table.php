@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('jabatan');
             $table->string('rfid_uid')->unique();
+            $table->enum('jenis_kelamin', ['Laki-Laki', 'Perempuan']);
             $table->rememberToken();
             $table->timestamps();
         });
