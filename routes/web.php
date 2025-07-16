@@ -28,7 +28,7 @@ Route::post('/login', [LoginController::class, 'login']);
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get('/dashboard', function () {
-    return view('projek.dashboard');
+    return view('projek2.dashboard');
 })->middleware('role:admin')->name('dashboard.admin');
 
 Route::get('/dashboard2', function () {
@@ -47,7 +47,7 @@ Route::delete('/karyawan/{id}', [UserController::class, 'destroy'])
     ->name('karyawan.destroy');
 
 Route::get('/profile', function () {
-    return view('projek.profile');
+    return view('projek2.profile');
 })->middleware('role:admin')->name('profil.1');
 
 use App\Http\Controllers\RfidController;

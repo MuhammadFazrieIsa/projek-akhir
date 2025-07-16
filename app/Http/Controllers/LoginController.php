@@ -11,7 +11,7 @@ class LoginController extends Controller
 
 public function showLoginForm()
 {
-    return view('projek.login'); // or wherever your login view is
+    return view('projek2.login'); // or wherever your login view is
 }
 
 public function login(Request $request)

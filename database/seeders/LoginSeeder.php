@@ -42,7 +42,7 @@ class LoginSeeder extends Seeder
                 'name' => 'Jia',
                 'jabatan' => 'karyawan',
                 'password' => Hash::make('123'),
-                'rfid_uid' => 'A156C87',
+                'rfid_uid' => '3AA4363',
                 'jenis_kelamin' => 'Perempuan',
                 'created_at' => now(),
                 'updated_at' => now(),

@@ -73,40 +73,54 @@
                     <th>Jabatan</th>
                     <th>Jenis Kelamin</th>
                     <th>UID</th>
+                    <th>Status</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
-                @forelse ($users as $user)
-                <tr>
-                    <td>{{ $user->id }}</td>
-                    <td class="text-center">
-                      @php
-                          $iconUrl = $user->jenis_kelamin === 'Laki-Laki'
-                              ? 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png'
-                              : 'https://cdn-icons-png.flaticon.com/512/4140/4140051.png';
-                      @endphp
-                      <img src="{{ $iconUrl }}" width="48" height="48" alt="Icon {{ $user->jenis_kelamin }}" class="rounded-circle">
-                  </td>
+            @forelse ($users as $user)
+            <tr>
+                <td>{{ $user->id }}</td>
+                <td class="text-center">
+                  @php
+                      $iconUrl = $user->jenis_kelamin === 'Laki-Laki'
+                          ? 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png'
+                          : 'https://cdn-icons-png.flaticon.com/512/4140/4140051.png';
+                  @endphp
+                  <img src="{{ $iconUrl }}" width="48" height="48" alt="Icon {{ $user->jenis_kelamin }}" class="rounded-circle">
+                </td>
 
-                    <td>{{ $user->name }}</td>
-                    <td>{{ $user->jabatan }}</td>
-                    <td>{{ $user->jenis_kelamin }}</td>
-                    <td>{{ $user->rfid_uid }}</td>
-                    <td>
-                        <form action="{{ route('karyawan.destroy', $user->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin hapus?')">
-                            @csrf
-                            @method('DELETE')
-                            <button class="btn btn-danger btn-sm">Hapus</button>
-                        </form>
-                    </td>
-                </tr>
-                @empty
-                <tr>
-                    <td colspan="8" class="text-center">Data tidak ditemukan.</td>
-                </tr>
-                @endforelse
+                <td>{{ $user->name }}</td>
+                <td>{{ $user->jabatan }}</td>
+                <td>{{ $user->jenis_kelamin }}</td>
+                <td>{{ $user->rfid_uid }}</td>
+
+                {{-- Status --}}
+                <td>
+                    @php
+                        $hadir = optional($user->absenTerbaru)->kedatangan !== null;
+                    @endphp
+                    <span class="badge {{ $hadir ? 'bg-success' : 'bg-secondary' }}">
+                        {{ $hadir ? 'Hadir' : 'Tidak Hadir' }}
+                    </span>
+                </td>
+
+                {{-- Aksi --}}
+                <td>
+                    <form action="{{ route('karyawan.destroy', $user->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin hapus?')">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-danger btn-sm">Hapus</button>
+                    </form>
+                </td>
+            </tr>
+            @empty
+            <tr>
+                <td colspan="8" class="text-center">Data tidak ditemukan.</td>
+            </tr>
+            @endforelse
             </tbody>
+
         </table>
     </div>
 

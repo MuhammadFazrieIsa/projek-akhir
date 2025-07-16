@@ -47,4 +47,11 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+public function absenTerbaru()
+{
+    return $this->hasOne(\App\Models\Absen::class, 'rfid_uid', 'rfid_uid')->latestOfMany();
+}
+
+    
 }

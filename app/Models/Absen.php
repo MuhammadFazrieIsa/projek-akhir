@@ -17,3 +17,4 @@ class Absen extends Model
 
     public $timestamps = false; // karena kita tidak pakai created_at dan updated_at
 }
+
