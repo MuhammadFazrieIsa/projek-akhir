@@ -19,7 +19,7 @@ public function index(Request $request)
         })
         ->paginate(10);
 
-    return view('projek.table', compact('users', 'search'));
+    return view('projek2.table', compact('users', 'search'));
 }
 
 
@@ -28,7 +28,7 @@ public function index(Request $request)
         $karyawan = User::findOrFail($id);
         $karyawan->delete();
 
-        return redirect()->route('karyawan.index')->with('success', 'Data berhasil dihapus.');
+        return redirect()->route('karyawan')->with('success', 'Data berhasil dihapus.');
     }
     
 }

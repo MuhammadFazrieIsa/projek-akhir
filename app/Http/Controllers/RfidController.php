@@ -16,7 +16,7 @@ class RfidController extends Controller
             ? Storage::get('latest_rfid.txt')
             : '';
 
-        return view('projek.form', ['rfid_uid' => $latestRfid]);
+        return view('projek2.form', ['rfid_uid' => $latestRfid]);
     }
 
     // Untuk menyimpan dari form Laravel (ke database users)

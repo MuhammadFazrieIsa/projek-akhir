@@ -40,15 +40,15 @@
     </div>
 @if(session('user')['jabatan'] == 'admin')
   <div class="style"> 
-    @include('projek2.style.profile.sidebar') 
+    @include('projek2.style.table.sidebar') 
   </div>
 @elseif(session('user')['jabatan'] == 'manajer')
   <div class="style"> 
-    @include('projek2.style.profile.sidebar2') 
+    @include('projek2.style.table.sidebar2') 
   </div>
 @elseif(session('user')['jabatan'] == 'karyawan')
   <div class="style"> 
-    @include('projek2.style.profile.sidebar3') 
+    @include('projek2.style.table.sidebar3') 
   </div>
 @endif
   
@@ -61,7 +61,7 @@
 
 
         <div class="style"> 
-          @include('projek2.style.profil') 
+          @include('projek2.style.table') 
         </div>
       
     </main>

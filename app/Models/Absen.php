@@ -10,9 +10,11 @@ class Absen extends Model
 
     protected $fillable = [
         'rfid_uid',
+        'tanggal',
         'kedatangan',
         'kepulangan',
-        'status',
+        'status_kedatangan',
+        'status_kehadiran'
     ];
 
     public $timestamps = false; // karena kita tidak pakai created_at dan updated_at

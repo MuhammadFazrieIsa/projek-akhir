@@ -144,7 +144,6 @@
         </video>
       </div>
     </div>
-<<<<<<< HEAD
 </div>
 @if ($errors->any())
     <div class="alert alert-danger">
@@ -181,7 +180,6 @@ setInterval(function() {
 }, 2000);
 
     </script>
-=======
   </div>
 
   <!-- RFID Polling Script -->
@@ -212,6 +210,5 @@ setInterval(function() {
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
->>>>>>> 4fb920c (Update folder with latest changes)
 </body>
 </html>

@@ -14,9 +14,11 @@ return new class extends Migration
         Schema::create('absen', function (Blueprint $table) {
             $table->id();
             $table->string('rfid_uid');
-            $table->timestamp('kedatangan');
-            $table->timestamp('kepulangan')->nullable(); // Make nullable
-            $table->string('status')->nullable();
+            $table->date('tanggal');
+            $table->time('kedatangan'); // Fixed from `times` to `time`
+            $table->time('kepulangan')->nullable(); // Fixed and nullable
+            $table->string('status_kedatangan')->nullable();
+            $table->string('status_kehadiran')->nullable();
         });
     }
 

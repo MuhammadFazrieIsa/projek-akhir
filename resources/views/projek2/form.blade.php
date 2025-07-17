@@ -36,8 +36,6 @@
   <body class="m-0 font-sans antialiased font-normal bg-white text-start text-base leading-default text-slate-500">
     <div class="container sticky top-0 z-sticky">
       <div class="flex flex-wrap -mx-3">
-        <div class="w-full max-w-full px-3 flex-0">
-        </div>
       </div>
     </div>
     <main class="mt-0 transition-all duration-200 ease-in-out">
@@ -48,49 +46,102 @@
               <div class="flex flex-col w-full max-w-full px-3 mx-auto lg:mx-0 shrink-0 md:flex-0 md:w-7/12 lg:w-5/12 xl:w-4/12">
                 <div class="relative flex flex-col min-w-0 break-words bg-transparent border-0 shadow-none lg:py4 dark:bg-gray-950 rounded-2xl bg-clip-border">
                   <div class="p-6 pb-0 mb-0">
-                    <h4 class="font-bold">Login</h4>
-                    <p class="mb-0">Masukan Nama dan Password untuk Login</p>
-                  </div>
-                   @if ($errors->any())
-                    <div class="error mb-3">
-                      {{ $errors->first() }}
-                    </div>
-                  @endif
-                  <div class="flex-auto p-6">
-                    <form role="form" method="POST" action="{{ url('/login') }}">
-                       @csrf
-                      <div class="mb-4">
-                        <input type="text" name="name" id="name" placeholder="Masukan Nama" required
-                        class="form-control focus:shadow-primary-outline dark:bg-gray-950 dark:placeholder:text-white/80 dark:text-white/80 text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding p-3 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-fuchsia-300 focus:outline-none" /
-                        />
-                      </div>
-                      <div class="mb-4">
-                        <input type="password" name="password" id="password" placeholder="Masukan Password" required
-                        class="form-control focus:shadow-primary-outline dark:bg-gray-950 dark:placeholder:text-white/80 dark:text-white/80 text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding p-3 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-fuchsia-300 focus:outline-none" />
-                      </div>
-                      <div class="flex items-center pl-12 mb-0.5 text-left min-h-6">
-                        <input  type="checkbox" name="remember" id="rememberMe"
-                        class="mt-0.5 rounded-10 duration-250 ease-in-out after:rounded-circle after:shadow-2xl after:duration-250 checked:after:translate-x-5.3 h-5 relative float-left -ml-12 w-10 cursor-pointer appearance-none border border-solid border-gray-200 bg-zinc-700/10 bg-none bg-contain bg-left bg-no-repeat align-top transition-all after:absolute after:top-px after:h-4 after:w-4 after:translate-x-px after:bg-white after:content-[''] checked:border-blue-500/95 checked:bg-blue-500/95 checked:bg-none checked:bg-right" type="checkbox" />
-                        <label class="ml-2 font-normal cursor-pointer select-none text-sm text-slate-700" for="rememberMe">Remember me</label>
-                      </div>
-                      <div class="text-center">
-                        <button type="submit" class="inline-block w-full px-16 py-3.5 mt-6 mb-0 font-bold leading-normal text-center text-white align-middle transition-all bg-blue-500 border-0 rounded-lg cursor-pointer hover:-translate-y-px active:opacity-85 hover:shadow-xs text-sm ease-in tracking-tight-rem shadow-md bg-150 bg-x-25">Sign in</button>
-                      </div>
-                    </form>
-                  </div>
-                  <div class="border-black/12.5 rounded-b-2xl border-t-0 border-solid p-6 text-center pt-0 px-1 sm:px-6">
-                    <p class="mx-auto mb-6 leading-normal text-sm">Belum punya akun? <a href="{{ url('/rfid/form') }}" class="font-semibold text-transparent bg-clip-text bg-gradient-to-tl from-blue-500 to-violet-500">Daftar Sekarang</a></p>
-                  </div>
-                  </form>
-                </div>
+                    <h4 class="font-bold">Daftar</h4>
+                    <p class="mb-0">Silahkan Isikan Ketika Kartu sudah Terdaftar</p>
+                    
+                    
+
+    @if(session('status'))
+      <div class="alert alert-success text-center my-2">{{ session('status') }}</div>
+    @endif
+
+    @if($errors->any())
+      <div class="alert alert-danger my-2">
+        <ul class="mb-0">
+          @foreach($errors->all() as $error)
+            <li>{{ $error }}</li>
+          @endforeach
+        </ul>
+      </div>
+    @endif
+    <div class="flex-auto p-6">
+    <div id="rfidInfo" class="mb-3">
+      @if($rfid_uid)
+        <div class="bg-green-100 text-green-700 p-2 rounded text-center">
+          RFID Terdeteksi: <strong>{{ $rfid_uid }}</strong>
+        </div>
+      @else
+        <div class="bg-blue-100 text-blue-700 p-2 rounded text-center">
+          Silakan tap kartu RFID...
+        </div>
+      @endif
+    </div>
+</div>
+
+    <form method="POST" action="{{ route('rfid.store') }}">
+      @csrf
+      <input type="hidden" id="rfid_uid" name="rfid_uid" value="{{ $rfid_uid }}">
+
+      <div class="mb-4">
+        <input type="text" name="name" id="name" placeholder="Masukkan Nama"
+          class="form-control focus:shadow-primary-outline dark:bg-gray-950 dark:placeholder:text-white/80 dark:text-white/80 text-sm leading-5.6 block w-full rounded-lg border border-solid border-gray-300 bg-white p-3 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-fuchsia-300" required>
+      </div>
+
+      <div class="mb-4">
+        <input type="password" name="password" id="password" placeholder="Masukkan 6 Karakter Password"
+          class="form-control focus:shadow-primary-outline dark:bg-gray-950 dark:placeholder:text-white/80 dark:text-white/80 text-sm leading-5.6 block w-full rounded-lg border border-solid border-gray-300 bg-white p-3 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-fuchsia-300" required>
+      </div>
+
+      <div class="mb-4">
+        <select name="jenis_kelamin" id="jenis_kelamin"
+          class="form-select block w-full p-3 text-sm text-gray-700 bg-white border border-gray-300 rounded-lg focus:outline-none focus:border-fuchsia-300" required>
+          <option value="" disabled selected>Pilih Jenis Kelamin</option>
+          <option value="Laki-Laki">Laki-Laki</option>
+          <option value="Perempuan">Perempuan</option>
+        </select>
+      </div>
+
+      <div class="mb-4">
+        <select name="jabatan" id="jabatan"
+          class="form-select block w-full p-3 text-sm text-gray-700 bg-white border border-gray-300 rounded-lg focus:outline-none focus:border-fuchsia-300" required>
+          <option value="" disabled selected>Pilih Jabatan</option>
+          <option value="Admin">Admin</option>
+          <option value="Manajer">Manajer</option>
+          <option value="Karyawan">Karyawan</option>
+        </select>
+      </div>
+
+      <div class="text-center">
+        <button type="submit"
+          class="inline-block w-full px-6 py-3 mt-4 mb-0 font-bold text-white text-sm leading-normal text-center align-middle transition-all bg-blue-500 border-0 rounded-lg shadow-md cursor-pointer hover:-translate-y-px active:opacity-85 hover:shadow-xs ease-in tracking-tight-rem">
+          Simpan
+        </button>
+      </div>
+    </form>
+
+    <div class="text-center mt-4">
+      <small class="text-slate-500">Sudah punya akun? <a href="{{ url('/login') }}" class="text-blue-500 font-semibold">Login di sini</a></small>
+    </div>
+  </div>
               </div>
-              <div class="absolute top-0 right-0 flex-col justify-center hidden w-6/12 h-full max-w-full px-3 pr-0 my-auto text-center flex-0 lg:flex">
-                <div class="relative flex flex-col justify-center h-full bg-cover px-24 m-4 overflow-hidden bg-[url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signin-ill.jpg')] rounded-xl ">
-                  <span class="absolute top-0 left-0 w-full h-full bg-center bg-cover bg-gradient-to-tl from-blue-500 to-violet-500 opacity-60"></span>
-                  <h4 class="z-20 mt-12 font-bold text-white">"Attention is the new currency"</h4>
-                  <p class="z-20 text-white ">The more effortless the writing looks, the more effort the writer actually put into the process.</p>
-                </div>
-              </div>
+              <div class="absolute top-0 right-0 hidden w-6/12 h-full px-3 pr-0 my-auto text-center lg:flex">
+  <div class="relative flex flex-col justify-center h-full px-24 m-4 overflow-hidden rounded-xl bg-cover">
+    <span class="absolute top-0 left-0 w-full h-full bg-gradient-to-tl from-blue-500 to-violet-500 opacity-60"></span>
+    <video
+      class="relative w-full h-full rounded-xl object-cover"
+      id="loopVideo"
+      autoplay
+      muted
+      playsinline
+      loop
+      aria-hidden="true"
+    >
+      <source src="https://electropeak.com/learn/wp-content/uploads/2019/04/RC522-RFID-Arduino-Tutorial.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+  </div>
+</div>
+
             </div>
           </div>
         </div>
@@ -143,4 +194,23 @@
   <script src="../assets/js/plugins/perfect-scrollbar.min.js" async></script>
   <!-- main script file  -->
   <script src="../assets/js/argon-dashboard-tailwind.js?v=1.0.1" async></script>
+
+      <script>
+// Auto-refresh setiap 2 detik
+setInterval(function() {
+    fetch(window.location.href)
+        .then(response => response.text())
+        .then(html => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const newRfid = doc.getElementById('rfid_uid').value;
+            const currentRfid = document.getElementById('rfid_uid').value;
+
+            if (newRfid && newRfid !== currentRfid) {
+                window.location.reload();
+            }
+        });
+}, 2000);
+
+    </script>
 </html>

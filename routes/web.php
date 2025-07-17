@@ -32,23 +32,23 @@ Route::get('/dashboard', function () {
 })->middleware('role:admin')->name('dashboard.admin');
 
 Route::get('/dashboard2', function () {
-    return view('projek.dashboard2');
+    return view('projek2.dashboard');
 })->middleware('role:manajer')->name('dashboard.manajer');
 
 Route::get('/dashboard3', function () {
-    return view('projek.dashboard3');
+    return view('projek2.dashboard');
 })->middleware('role:karyawan')->name('dashboard.karyawan');
 
 Route::get('/karyawan', [UserController::class, 'index'])
     ->middleware('role:admin')
-    ->name('karyawan.index');
+    ->name('karyawan');
 
 Route::delete('/karyawan/{id}', [UserController::class, 'destroy'])
     ->name('karyawan.destroy');
 
 Route::get('/profile', function () {
     return view('projek2.profile');
-})->middleware('role:admin')->name('profil.1');
+})->middleware('role:admin')->name('profil');
 
 use App\Http\Controllers\RfidController;
 
