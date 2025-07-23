@@ -9,26 +9,27 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('absen', function (Blueprint $table) {
-            $table->id();
-            $table->string('rfid_uid');
+        Schema::create('absensis', function (Blueprint $table) {
+            $table->id('idAbsensi');
+            $table->unsignedBigInteger('idUsers');
             $table->date('tanggal');
-            $table->time('kedatangan')->nullable(); // Fixed from times to time
-            $table->time('kepulangan')->nullable(); // Fixed and nullable
+            $table->time('jam_datang')->nullable();
+            $table->time('jam_pulang')->nullable();
             $table->string('status_kedatangan')->nullable();
             $table->string('status_kehadiran')->nullable();
+            $table->timestamps();
+        
+            $table->foreign('idUsers')->references('id')->on('users')->onDelete('cascade');
         });
     }
-
-
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('absen');
+        //
     }
 };

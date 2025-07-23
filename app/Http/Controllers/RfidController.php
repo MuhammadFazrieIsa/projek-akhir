@@ -27,6 +27,7 @@ class RfidController extends Controller
             'name' => 'required|string|max:255',
             'password' => 'required|string|min:6',
             'jabatan' => 'required|string|max:100',
+            'jenis_kelamin' => 'required|string|max:100',
         ]);
 
         // Simpan ke file
@@ -38,6 +39,7 @@ class RfidController extends Controller
         $user->rfid_uid = $validated['rfid_uid'];
         $user->password = Hash::make($validated['password']);
         $user->jabatan = $validated['jabatan'];
+        $user->jabatan = $validated['jenis_kelamin'];
         $user->save();
 
         return redirect()->back()->with('status', 'Data pengguna berhasil disimpan!');

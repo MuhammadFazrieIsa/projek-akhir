@@ -32,35 +32,173 @@
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <!-- Main Styling -->
     <link href="./assets/css/argon-dashboard-tailwind.css?v=1.0.1" rel="stylesheet" />
+
+    <!-- buat csrf  -->
+     <meta name="csrf-token" content="{{ csrf_token() }}">
+
   </head>
 
   <body class="m-0 font-sans text-base antialiased font-normal dark:bg-slate-900 leading-default bg-gray-50 text-slate-500">
-<div class="absolute w-full bg-blue-500 dark:hidden min-h-75"></div>
+    <div class="absolute bg-y-50 w-full top-0 bg-[url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/profile-layout-header.jpg')] min-h-75">
+      <span class="absolute top-0 left-0 w-full h-full bg-blue-500 opacity-60"></span>
+    </div>
 @if(session('user')['jabatan'] == 'admin')
   <div class="style"> 
-    @include('projek2.style.dashboard.sidebar') 
+    @include('projek2.style.riwayat.sidebar') 
   </div>
 @elseif(session('user')['jabatan'] == 'manajer')
   <div class="style"> 
-    @include('projek2.style.dashboard.sidebar2') 
+    @include('projek2.style.riwayat.sidebar2') 
   </div>
 @elseif(session('user')['jabatan'] == 'karyawan')
   <div class="style"> 
-    @include('projek2.style.dashboard.sidebar3') 
+    @include('projek2.style.riwayat.sidebar3') 
   </div>
 @endif
   
     <main class="relative h-full max-h-screen transition-all duration-200 ease-in-out xl:ml-68 rounded-xl">
 
-      <div class="style"> 
+      <div class="style" style="margin-bottom: 50px;"> 
           @include('projek2.style.navbar') 
         </div>
       <!-- end Navbar -->
 
 
-        <div class="style"> 
-          @include('projek2.style.card') 
+<div class="bg-white container mx-auto px-4 py-6" style="margin-left: 20px;">
+    <h2 class="text-2xl font-semibold text-slate-700 dark:text-white mb-6">
+        Rekap Nilai Kedisiplinan Bulan {{ $bulan ?? now()->month }} Tahun {{ $tahun ?? now()->year }}
+    </h2>
+
+    @if(session('success'))
+        <div class="bg-green-100 text-green-700 px-4 py-2 rounded mb-4">
+            {{ session('success') }}
         </div>
+    @endif
+
+    <!-- Chart Card -->
+    <div class="bg-white dark:bg-slate-800 shadow p-4 mb-8">
+        <canvas id="fuzzyChart" class="w-full h-64"></canvas>
+    </div>
+
+    <!-- Table -->
+    <div class="bg-white dark:bg-slate-800 shadow rounded-lg overflow-x-auto">
+        <table class="min-w-full table-auto text-center border border-slate-200 dark:border-slate-700">
+            <thead class="bg-slate-100 dark:bg-slate-700">
+                <tr>
+                    <th class="px-4 py-2 text-sm font-semibold text-slate-700 dark:text-white">Nama</th>
+                    <th class="px-4 py-2 text-sm font-semibold text-slate-700 dark:text-white">Lebih Awal</th>
+                    <th class="px-4 py-2 text-sm font-semibold text-slate-700 dark:text-white">Tepat Waktu</th>
+                    <th class="px-4 py-2 text-sm font-semibold text-slate-700 dark:text-white">Agak Terlambat</th>
+                    <th class="px-4 py-2 text-sm font-semibold text-slate-700 dark:text-white">Terlambat</th>
+                    <th class="px-4 py-2 text-sm font-semibold text-slate-700 dark:text-white">Jumlah Keseluruhan</th>
+                    <th class="px-4 py-2 text-sm font-semibold text-red-500">Kurang Disiplin</th>
+                    <th class="px-4 py-2 text-sm font-semibold text-yellow-500">Cukup Disiplin</th>
+                    <th class="px-4 py-2 text-sm font-semibold text-green-500">Disiplin</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 dark:divide-slate-600">
+                @foreach($datas as $data)
+                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-700">
+                        <td class="px-4 py-2 text-sm text-slate-600 dark:text-white">{{ $data->user->name ?? '-' }}</td>
+                        <td class="px-4 py-2 text-sm text-slate-600 dark:text-white">{{ $data->lebih_awal }}</td>
+                        <td class="px-4 py-2 text-sm text-slate-600 dark:text-white">{{ $data->tepat_waktu }}</td>
+                        <td class="px-4 py-2 text-sm text-slate-600 dark:text-white">{{ $data->agak_terlambat }}</td>
+                        <td class="px-4 py-2 text-sm text-slate-600 dark:text-white">{{ $data->terlambat }}</td>
+                        <td class="px-4 py-2 text-sm text-slate-600 dark:text-white">{{ number_format($data->jumlah_keseluruhan, 2) }}</td>
+                        <td class="px-4 py-2 text-sm text-red-500">{{ number_format($data->nilai_kurang_disiplin, 2) }}</td>
+                        <td class="px-4 py-2 text-sm text-yellow-500">{{ number_format($data->nilai_cukup_disiplin, 2) }}</td>
+                        <td class="px-4 py-2 text-sm text-green-500">{{ number_format($data->nilai_disiplin, 2) }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+         <a href="{{ route('rekap.absensi') }}" class="inline-block mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Keluar</a>
+    </div>
+</div>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const jumlah_kehadiran = 24;
+    const ctx = document.getElementById('fuzzyChart').getContext('2d');
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            datasets: [
+                {
+                    label: 'Kurang Disiplin',
+                    data: [
+                        { x: 0, y: 1 },
+                        { x: jumlah_kehadiran / 2, y: 1 },
+                        { x: jumlah_kehadiran, y: 0 }
+                    ],
+                    borderColor: 'red',
+                    fill: false,
+                    spanGaps: true,
+                },
+                {
+                    label: 'Cukup Disiplin',
+                    data: [
+                        { x: jumlah_kehadiran / 2, y: 0 },
+                        { x: jumlah_kehadiran, y: 1 },
+                        { x: jumlah_kehadiran + (jumlah_kehadiran / 2), y: 0 }
+                    ],
+                    borderColor: 'orange',
+                    fill: false,
+                    spanGaps: true,
+                },
+                {
+                    label: 'Disiplin',
+                    data: [
+                        { x: jumlah_kehadiran, y: 0 },
+                        { x: jumlah_kehadiran + (jumlah_kehadiran / 2), y: 1 },
+                        { x: jumlah_kehadiran * 2, y: 1 }
+                    ],
+                    borderColor: 'green',
+                    fill: false,
+                    spanGaps: true,
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    type: 'linear',
+                    min: 0,
+                    max: jumlah_kehadiran * 2,
+                    title: {
+                        display: true,
+                        text: 'Jumlah Kehadiran'
+                    },
+                    ticks: {
+                        stepSize: jumlah_kehadiran / 2,
+                        callback: function (value) {
+                            const half = jumlah_kehadiran / 2;
+                            if (value === 0) return '0';
+                            if (Math.abs(value - half) < 0.01) return `${half}`;
+                            if (Math.abs(value - jumlah_kehadiran) < 0.01) return `${jumlah_kehadiran}`;
+                            if (Math.abs(value - (jumlah_kehadiran + half)) < 0.01) return `${jumlah_kehadiran + half}`;
+                            if (Math.abs(value - (jumlah_kehadiran * 2)) < 0.01) return `${jumlah_kehadiran * 2}`;
+                            return '';
+                        }
+                    }
+                },
+                y: {
+                    min: 0,
+                    max: 1.2,
+                    title: {
+                        display: true,
+                        text: 'Derajat Keanggotaan'
+                    }
+                }
+            }
+        }
+    });
+</script>
+
       
     </main>
     <div fixed-plugin>
@@ -139,5 +277,4 @@
   <script src="./assets/js/plugins/perfect-scrollbar.min.js" async></script>
   <!-- main script file  -->
   <script src="./assets/js/argon-dashboard-tailwind.js?v=1.0.1" async></script>
-  
 </html>

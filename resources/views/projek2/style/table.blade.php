@@ -5,14 +5,30 @@
           <div class="flex-none w-full max-w-full px-3">
             <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
               <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
-                <h6 class="dark:text-white">Daftar Karyawan</h6>
-              </div>
+              <h6 class="dark:text-white">Daftar Karyawan</h6>
+                <form method="GET" action="{{ route('karyawan') }}" class="mb-4 flex justify-end items-center gap-2">
+                  <input 
+                      type="text" 
+                      name="search" 
+                      placeholder="Nama atau UID..." 
+                      value="{{ request('search') }}" 
+                      class="px-4 py-2 border rounded-md text-sm dark:bg-slate-800 dark:text-white"
+                  >
+                  
+                  <button type="submit" class="p-2 bg-blue-600 rounded text-white hover:bg-blue-700">
+                      <!-- Heroicons search icon (Tailwind-compatible) -->
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="black" class="w-5 h-5">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 104.5 4.5a7.5 7.5 0 0012.15 12.15z" />
+                      </svg>
+                  </button>
+              </form>
+          </div>
+
               <div class="flex-auto px-0 pt-0 pb-2">
                 <div class="p-0 overflow-x-auto">
                 <table class="items-center w-full mb-0 align-top border-collapse dark:border-white/40 text-slate-500">
                     <thead class="align-bottom">
                         <tr>
-                            <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b dark:border-white/40 dark:text-white text-xxs tracking-none whitespace-nowrap text-slate-400 opacity-70"></th>
                             <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b dark:border-white/40 dark:text-white text-xxs tracking-none whitespace-nowrap text-slate-400 opacity-70">Nama</th>
                             <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b dark:border-white/40 dark:text-white text-xxs tracking-none whitespace-nowrap text-slate-400 opacity-70">Jabatan</th>
                             <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b dark:border-white/40 dark:text-white text-xxs tracking-none whitespace-nowrap text-slate-400 opacity-70">Jenis Kelamin</th>
@@ -24,20 +40,19 @@
                     <tbody>
                         @forelse($users as $user)
                         <tr>
-
-                            <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent text-center">
+                            <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
                                 @php
                                     $iconUrl = $user->jenis_kelamin === 'Laki-Laki'
                                         ? 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png'
                                         : 'https://cdn-icons-png.flaticon.com/512/4140/4140051.png';
                                 @endphp
-                                <img src="{{ $iconUrl }}" width="36" height="36" alt="Icon" class="rounded-xl mx-auto" />
-                            </td>
 
-                            <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-                                <div class="flex flex-col justify-center">
-                                    <h6 class="mb-0 text-sm leading-normal dark:text-white">{{ $user->name }}</h6>
-                                    <p class="mb-0 text-xs leading-tight dark:text-white dark:opacity-80 text-slate-400">{{ $user->email }}</p>
+                                <div class="flex items-center space-x-3 px-2">
+                                    <img src="{{ $iconUrl }}" width="36" height="36" alt="Icon" class="inline-flex items-center justify-center mr-2 text-sm text-white transition-all duration-200 ease-in-out rounded-full h-9 w-9"" />
+                                    <div class="flex flex-col justify-center">
+                                        <h6 class="mb-0 text-sm leading-normal dark:text-white">{{ $user->name }}</h6>
+                                        <p class="mb-0 text-xs leading-tight dark:text-white dark:opacity-80 text-slate-400">{{ $user->email }}</p>
+                                    </div>
                                 </div>
                             </td>
 
@@ -75,7 +90,6 @@
                                 </span>
                             </td>
 
-
                             <td class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
                                 <form action="{{ route('karyawan.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Yakin ingin hapus?')" class="inline">
                                     @csrf
@@ -104,15 +118,15 @@
           <div class="flex-none w-full max-w-full px-3">
             <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
               <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
-                <h6 class="dark:text-white">Projects table</h6>
+                <h6 class="dark:text-white">Kinerja Peforma</h6>
               </div>
               <div class="flex-auto px-0 pt-0 pb-2">
                 <div class="p-0 overflow-x-auto">
                   <table class="items-center justify-center w-full mb-0 align-top border-collapse dark:border-white/40 text-slate-500">
                     <thead class="align-bottom">
                       <tr>
-                        <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Project</th>
-                        <th class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Budget</th>
+                        <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Nama</th>
+                        <th class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Penghasilan</th>
                         <th class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Status</th>
                         <th class="px-6 py-3 pl-2 font-bold text-center uppercase align-middle bg-transparent border-b shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Completion</th>
                         <th class="px-6 py-3 font-semibold capitalize align-middle bg-transparent border-b border-solid shadow-none dark:border-white/40 dark:text-white tracking-none whitespace-nowrap"></th>
@@ -123,10 +137,10 @@
                         <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
                           <div class="flex px-2">
                             <div>
-                              <img src="../assets/img/small-logos/logo-spotify.svg" class="inline-flex items-center justify-center mr-2 text-sm text-white transition-all duration-200 ease-in-out rounded-full h-9 w-9" alt="spotify" />
+                              <img src="https://cdn-icons-png.flaticon.com/512/4140/4140048.png" class="inline-flex items-center justify-center mr-2 text-sm text-white transition-all duration-200 ease-in-out rounded-full h-9 w-9" alt="spotify" />
                             </div>
                             <div class="my-auto">
-                              <h6 class="mb-0 text-sm leading-normal dark:text-white">Spotify</h6>
+                              <h6 class="mb-0 text-sm leading-normal dark:text-white">Yusuf</h6>
                             </div>
                           </div>
                         </td>
@@ -156,10 +170,10 @@
                         <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
                           <div class="flex px-2">
                             <div>
-                              <img src="../assets/img/small-logos/logo-invision.svg" class="inline-flex items-center justify-center mr-2 text-sm text-white transition-all duration-200 ease-in-out rounded-full h-9 w-9" alt="invision" />
+                              <img src="https://cdn-icons-png.flaticon.com/512/4140/4140048.png" class="inline-flex items-center justify-center mr-2 text-sm text-white transition-all duration-200 ease-in-out rounded-full h-9 w-9" alt="invision" />
                             </div>
                             <div class="my-auto">
-                              <h6 class="mb-0 text-sm leading-normal dark:text-white">Invision</h6>
+                              <h6 class="mb-0 text-sm leading-normal dark:text-white">Abdan</h6>
                             </div>
                           </div>
                         </td>
@@ -189,10 +203,10 @@
                         <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
                           <div class="flex px-2">
                             <div>
-                              <img src="../assets/img/small-logos/logo-jira.svg" class="inline-flex items-center justify-center mr-2 text-sm text-white transition-all duration-200 ease-in-out rounded-full h-9 w-9" alt="jira" />
+                              <img src="https://cdn-icons-png.flaticon.com/512/4140/4140048.png" class="inline-flex items-center justify-center mr-2 text-sm text-white transition-all duration-200 ease-in-out rounded-full h-9 w-9" alt="jira" />
                             </div>
                             <div class="my-auto">
-                              <h6 class="mb-0 text-sm leading-normal dark:text-white">Jira</h6>
+                              <h6 class="mb-0 text-sm leading-normal dark:text-white">Isa</h6>
                             </div>
                           </div>
                         </td>
@@ -222,10 +236,10 @@
                         <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
                           <div class="flex px-2">
                             <div>
-                              <img src="../assets/img/small-logos/logo-slack.svg" class="inline-flex items-center justify-center mr-2 text-sm text-white transition-all duration-200 ease-in-out rounded-full h-9 w-9" alt="slack" />
+                              <img src="https://cdn-icons-png.flaticon.com/512/4140/4140051.png" class="inline-flex items-center justify-center mr-2 text-sm text-white transition-all duration-200 ease-in-out rounded-full h-9 w-9" alt="slack" />
                             </div>
                             <div class="my-auto">
-                              <h6 class="mb-0 text-sm leading-normal dark:text-white">Slack</h6>
+                              <h6 class="mb-0 text-sm leading-normal dark:text-white">Jia</h6>
                             </div>
                           </div>
                         </td>
@@ -241,72 +255,6 @@
                             <div>
                               <div class="text-xs h-0.75 w-30 m-0 flex overflow-visible rounded-lg bg-gray-200">
                                 <div class="flex flex-col justify-center w-0 h-auto overflow-hidden text-center text-white transition-all bg-blue-500 rounded duration-600 ease bg-gradient-to-tl from-emerald-500 to-teal-400 whitespace-nowrap" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="0"></div>
-                              </div>
-                            </div>
-                          </div>
-                        </td>
-                        <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-                          <button class="inline-block px-5 py-2.5 mb-0 font-bold text-center uppercase align-middle transition-all bg-transparent border-0 rounded-lg shadow-none leading-normal text-sm ease-in bg-150 tracking-tight-rem bg-x-25 text-slate-400" aria-haspopup="true" aria-expanded="false">
-                            <i class="text-xs leading-tight fa fa-ellipsis-v dark:text-white dark:opacity-60"></i>
-                          </button>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-                          <div class="flex px-2">
-                            <div>
-                              <img src="../assets/img/small-logos/logo-webdev.svg" class="inline-flex items-center justify-center mr-2 text-sm text-white transition-all duration-200 ease-in-out rounded-full h-9 w-9" alt="webdev" />
-                            </div>
-                            <div class="my-auto">
-                              <h6 class="mb-0 text-sm leading-normal dark:text-white">Webdev</h6>
-                            </div>
-                          </div>
-                        </td>
-                        <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-                          <p class="mb-0 text-sm font-semibold leading-normal dark:text-white dark:opacity-60">$14,000</p>
-                        </td>
-                        <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-                          <span class="text-xs font-semibold leading-tight dark:text-white dark:opacity-60">working</span>
-                        </td>
-                        <td class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-                          <div class="flex items-center justify-center">
-                            <span class="mr-2 text-xs font-semibold leading-tight dark:text-white dark:opacity-60">80%</span>
-                            <div>
-                              <div class="text-xs h-0.75 w-30 m-0 flex overflow-visible rounded-lg bg-gray-200">
-                                <div class="flex flex-col justify-center w-4/5 h-auto overflow-hidden text-center text-white transition-all bg-blue-500 rounded duration-600 ease bg-gradient-to-tl from-blue-700 to-cyan-500 whitespace-nowrap" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="80"></div>
-                              </div>
-                            </div>
-                          </div>
-                        </td>
-                        <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-                          <button class="inline-block px-5 py-2.5 mb-0 font-bold text-center uppercase align-middle transition-all bg-transparent border-0 rounded-lg shadow-none leading-normal text-sm ease-in bg-150 tracking-tight-rem bg-x-25 text-slate-400" aria-haspopup="true" aria-expanded="false">
-                            <i class="text-xs leading-tight fa fa-ellipsis-v dark:text-white dark:opacity-60"></i>
-                          </button>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td class="p-2 align-middle bg-transparent border-b-0 whitespace-nowrap shadow-transparent">
-                          <div class="flex px-2">
-                            <div>
-                              <img src="../assets/img/small-logos/logo-xd.svg" class="inline-flex items-center justify-center mr-2 text-sm text-white transition-all duration-200 ease-in-out rounded-full h-9 w-9" alt="xd" />
-                            </div>
-                            <div class="my-auto">
-                              <h6 class="mb-0 text-sm leading-normal dark:text-white">Adobe XD</h6>
-                            </div>
-                          </div>
-                        </td>
-                        <td class="p-2 align-middle bg-transparent border-b-0 whitespace-nowrap shadow-transparent">
-                          <p class="mb-0 text-sm font-semibold leading-normal dark:text-white dark:opacity-60">$2,300</p>
-                        </td>
-                        <td class="p-2 align-middle bg-transparent border-b-0 whitespace-nowrap shadow-transparent">
-                          <span class="text-xs font-semibold leading-tight dark:text-white dark:opacity-60">done</span>
-                        </td>
-                        <td class="p-2 text-center align-middle bg-transparent border-b-0 whitespace-nowrap shadow-transparent">
-                          <div class="flex items-center justify-center">
-                            <span class="mr-2 text-xs font-semibold leading-tight dark:text-white dark:opacity-60">100%</span>
-                            <div>
-                              <div class="text-xs h-0.75 w-30 m-0 flex overflow-visible rounded-lg bg-gray-200">
-                                <div class="flex flex-col justify-center w-full h-auto overflow-hidden text-center text-white transition-all bg-blue-500 rounded duration-600 ease bg-gradient-to-tl from-green-600 to-lime-400 whitespace-nowrap" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                               </div>
                             </div>
                           </div>

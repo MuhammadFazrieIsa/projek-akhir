@@ -32,7 +32,7 @@
 
   <ul class="list-unstyled w-100 mt-4">
     <li class="sidebar-item">
-      <a href="{{ route('dashboard.admin') }}" class="text-white text-decoration-none d-flex align-items-center">
+      <a href="#" class="text-white text-decoration-none d-flex align-items-center">
         <i class="fa-solid fa-table-columns me-2"></i> <span class="sidebar-text">BERANDA</span>
       </a>
     </li>
@@ -44,7 +44,7 @@
     </li>
 
     <li class="sidebar-item">
-      <a href="{{ route('karyawan.index') }}" class="text-white text-decoration-none d-flex align-items-center">
+      <a href="#" class="text-white text-decoration-none d-flex align-items-center">
         <i class="fa-solid fa-table-columns me-2"></i> <span class="sidebar-text">DAFTAR KARYAWAN</span>
       </a>
     </li>

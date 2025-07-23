@@ -3,7 +3,7 @@
         <div class="flex items-center justify-between w-full px-4 py-1 mx-auto flex-wrap-inherit">
           <nav class="absolute top-0 left-0 right-0 z-30 flex flex-wrap items-center px-4 py-2 m-6 mb-0 shadow-sm rounded-xl bg-white/80 backdrop-blur-2xl backdrop-saturate-200 lg:flex-nowrap lg:justify-start">
             <div class="flex items-center justify-between w-full p-0 px-6 mx-auto flex-wrap-inherit">
-              <a class="py-1.75 text-sm mr-4 ml-4 whitespace-nowrap font-bold text-slate-700 lg:ml-0" href="{{ route('profil') }}" target="_blank"> {{ session('user')['jabatan'] }} </a>
+              <a class="py-1.75 text-sm mr-4 ml-4 whitespace-nowrap font-bold text-slate-700 lg:ml-0" target="_blank"id="clock">00:00:00< </a>
               <button navbar-trigger class="px-3 py-1 ml-2 leading-none transition-all ease-in-out bg-transparent border border-transparent border-solid rounded-lg shadow-none cursor-pointer text-lg lg:hidden" type="button" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="inline-block mt-2 align-middle bg-center bg-no-repeat bg-cover w-6 h-6 bg-none">
                   <span bar1 class="w-5.5 rounded-xs relative my-0 mx-auto block h-px bg-gray-600 transition-all duration-300"></span>
@@ -16,15 +16,31 @@
                   <li>
                     <a class="flex items-center px-4 py-2 mr-2 font-normal transition-all ease-in-out lg-max:opacity-0 duration-250 text-sm text-slate-700 lg:px-2" aria-current="page">
                       <i class="mr-1 fa fa-chart-pie opacity-60"></i>
-                      Dashboard
+                      {{ session('user')['jabatan'] }}
                     </a>
                   </li>
                   <li>
-                    <a class="block px-4 py-2 mr-2 font-normal transition-all ease-in-out lg-max:opacity-0 duration-250 text-sm text-slate-700 lg:px-2" href="{{ route('profil') }}">
-                      <i class="mr-1 fa fa-user opacity-60"></i>
-                      Profile
-                    </a>
-                  </li>
+                    @if(session('user')['jabatan'] == 'admin')
+                        <a class="block px-4 py-2 mr-2 font-normal transition-all ease-in-out lg-max:opacity-0 duration-250 text-sm text-slate-700 lg:px-2"
+                          href="{{ route('profil') }}">
+                            <i class="mr-1 fa fa-user opacity-60"></i>
+                            Profile
+                        </a>
+                    @elseif(session('user')['jabatan'] == 'manajer')
+                        <a class="block px-4 py-2 mr-2 font-normal transition-all ease-in-out lg-max:opacity-0 duration-250 text-sm text-slate-700 lg:px-2"
+                          href="{{ route('profil2') }}">
+                            <i class="mr-1 fa fa-user opacity-60"></i>
+                            Profile
+                        </a>
+                    @elseif(session('user')['jabatan'] == 'karyawan')
+                        <a class="block px-4 py-2 mr-2 font-normal transition-all ease-in-out lg-max:opacity-0 duration-250 text-sm text-slate-700 lg:px-2"
+                          href="{{ route('profil3') }}">
+                            <i class="mr-1 fa fa-user opacity-60"></i>
+                            Profile
+                        </a>
+                    @endif
+                </li>
+
                 </ul>
                 <!-- online builder btn  -->
                 <!-- <li class="flex items-center">
@@ -152,3 +168,29 @@
           </div>
         </div>
       </nav>
+
+<script>
+// Update and format the clock
+function updateClock() {
+  const now = new Date();
+  const hours = now.getHours().toString().padStart(2, '0');
+  const minutes = now.getMinutes().toString().padStart(2, '0');
+  const seconds = now.getSeconds().toString().padStart(2, '0');
+  const clock = document.getElementById("clock");
+  clock.textContent = `${hours}:${minutes}:${seconds}`;
+}
+
+// Start clock updates
+setInterval(updateClock, 1000);
+updateClock();
+
+// Toggle calendar on clock click
+const clockElement = document.getElementById("clock");
+clockElement.style.cursor = "pointer";
+clockElement.addEventListener("click", () => {
+  const isHidden = calendarInput.style.display === "none";
+  calendarInput.style.display = isHidden ? "inline-block" : "none";
+  if (isHidden) calendarInput.valueAsDate = new Date();
+});
+
+</script>

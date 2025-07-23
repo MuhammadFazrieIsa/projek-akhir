@@ -32,35 +32,83 @@
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <!-- Main Styling -->
     <link href="./assets/css/argon-dashboard-tailwind.css?v=1.0.1" rel="stylesheet" />
+
+    <!-- buat csrf  -->
+     <meta name="csrf-token" content="{{ csrf_token() }}">
+
   </head>
 
   <body class="m-0 font-sans text-base antialiased font-normal dark:bg-slate-900 leading-default bg-gray-50 text-slate-500">
-<div class="absolute w-full bg-blue-500 dark:hidden min-h-75"></div>
+    <div class="absolute bg-y-50 w-full top-0 bg-[url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/profile-layout-header.jpg')] min-h-75">
+      <span class="absolute top-0 left-0 w-full h-full bg-blue-500 opacity-60"></span>
+    </div>
 @if(session('user')['jabatan'] == 'admin')
   <div class="style"> 
-    @include('projek2.style.dashboard.sidebar') 
+    @include('projek2.style.riwayat.sidebar') 
   </div>
 @elseif(session('user')['jabatan'] == 'manajer')
   <div class="style"> 
-    @include('projek2.style.dashboard.sidebar2') 
+    @include('projek2.style.riwayat.sidebar2') 
   </div>
 @elseif(session('user')['jabatan'] == 'karyawan')
   <div class="style"> 
-    @include('projek2.style.dashboard.sidebar3') 
+    @include('projek2.style.riwayat.sidebar3') 
   </div>
 @endif
   
     <main class="relative h-full max-h-screen transition-all duration-200 ease-in-out xl:ml-68 rounded-xl">
 
-      <div class="style"> 
+      <div class="style" style="margin-bottom: 50px;"> 
           @include('projek2.style.navbar') 
         </div>
       <!-- end Navbar -->
 
 
-        <div class="style"> 
-          @include('projek2.style.card') 
-        </div>
+<div class="container" style="margin-bottom: 100px;">
+
+
+     <div class="mb-8">
+
+    
+    <div class="bg-white rounded-lg shadow p-4 dark:bg-slate-800">
+            <h4 class="text-xl font-semibold text-slate-700 dark:text-white mb-4">
+      Rekap Keseluruhan Bulan {{ $bulan }} Tahun {{ $tahun }}
+    </h4>
+      <canvas id="fuzzyChart" class="w-full max-w-2xl mx-auto mb-6" height="250"></canvas>
+
+      <div class="overflow-x-auto">
+        <table class="min-w-full table-auto border border-slate-300 dark:border-slate-700">
+          <thead class="bg-slate-100 dark:bg-slate-700">
+            <tr>
+              <th class="px-4 py-2 text-left text-sm font-semibold text-slate-700 dark:text-white">Nama</th>
+              <th class="px-4 py-2 text-left text-sm font-semibold text-slate-700 dark:text-white">Hadir</th>
+              <th class="px-4 py-2 text-left text-sm font-semibold text-slate-700 dark:text-white">Izin</th>
+              <th class="px-4 py-2 text-left text-sm font-semibold text-slate-700 dark:text-white">Alpa</th>
+              <th class="px-4 py-2 text-left text-sm font-semibold text-slate-700 dark:text-white">Jumlah Kehadiran</th>
+              <th class="px-4 py-2 text-left text-sm font-semibold text-slate-700 dark:text-white">Kurang Baik</th>
+              <th class="px-4 py-2 text-left text-sm font-semibold text-slate-700 dark:text-white">Cukup Baik</th>
+              <th class="px-4 py-2 text-left text-sm font-semibold text-slate-700 dark:text-white">Baik</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-200 dark:divide-slate-600">
+            @foreach($datas as $data)
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-700">
+                <td class="px-4 py-2 text-sm text-slate-600 dark:text-white">{{ $data->user->name }}</td>
+                <td class="px-4 py-2 text-sm text-slate-600 dark:text-white">{{ $data->hadir }}</td>
+                <td class="px-4 py-2 text-sm text-slate-600 dark:text-white">{{ $data->izin }}</td>
+                <td class="px-4 py-2 text-sm text-slate-600 dark:text-white">{{ $data->alpa }}</td>
+                <td class="px-4 py-2 text-sm text-slate-600 dark:text-white">{{ number_format($data->jumlah_kehadiran, 2) }}</td>
+                <td class="px-4 py-2 text-sm text-red-500">{{ number_format($data->nilai_kurang_baik, 2) }}</td>
+                <td class="px-4 py-2 text-sm text-yellow-500">{{ number_format($data->nilai_cukup_baik, 2) }}</td>
+                <td class="px-4 py-2 text-sm text-green-500">{{ number_format($data->nilai_baik, 2) }}</td>
+              </tr>
+            @endforeach
+          </tbody>
+        </table>
+        <a href="{{ route('rekap.absensi') }}" class="inline-block mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Keluar</a>
+      </div>
+    </div>
+  </div>
       
     </main>
     <div fixed-plugin>
@@ -139,5 +187,64 @@
   <script src="./assets/js/plugins/perfect-scrollbar.min.js" async></script>
   <!-- main script file  -->
   <script src="./assets/js/argon-dashboard-tailwind.js?v=1.0.1" async></script>
-  
 </html>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const ctx = document.getElementById('fuzzyChart').getContext('2d');
+
+    const fuzzyChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [0, 6, 12, 18, 24, 30], // nilai sumbu x
+            datasets: [
+                {
+                    label: 'Kurang Baik',
+                    data: [1, 1, 0, null, null, null], // segitiga kiri
+                    borderColor: 'red',
+                    fill: false,
+                    spanGaps: true,
+                },
+                {
+                    label: 'Cukup Baik',
+                    data: [null, 0, 1, 0, null, null], // segitiga tengah
+                    borderColor: 'orange',
+                    fill: false,
+                    spanGaps: true,
+                },
+                {
+                    label: 'Baik',
+                    data: [null, null, 0, 1, 1, null], // segitiga kanan
+                    borderColor: 'green',
+                    fill: false,
+                    spanGaps: true,
+                }
+            ]
+        },
+        options: {
+            responsive: false,
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Nilai'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Derajat Keanggotaan'
+                    },
+                    min: 0,
+                    max: 1.2
+                }
+            }
+        }
+    });
+</script>
+
+
+

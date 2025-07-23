@@ -79,7 +79,7 @@
                     </form>
                   </div>
                   <div class="border-black/12.5 rounded-b-2xl border-t-0 border-solid p-6 text-center pt-0 px-1 sm:px-6">
-                    <p class="mx-auto mb-6 leading-normal text-sm">Belum punya akun? <a href="{{ url('/rfid/form') }}" class="font-semibold text-transparent bg-clip-text bg-gradient-to-tl from-blue-500 to-violet-500">Daftar Sekarang</a></p>
+                    <p class="mx-auto mb-6 leading-normal text-sm">Belum punya akun? <a href="{{ url('/rfid') }}" class="font-semibold text-transparent bg-clip-text bg-gradient-to-tl from-blue-500 to-violet-500">Daftar Sekarang</a></p>
                   </div>
                   </form>
                 </div>

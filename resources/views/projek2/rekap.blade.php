@@ -32,21 +32,27 @@
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <!-- Main Styling -->
     <link href="./assets/css/argon-dashboard-tailwind.css?v=1.0.1" rel="stylesheet" />
+
+    <!-- buat csrf  -->
+     <meta name="csrf-token" content="{{ csrf_token() }}">
+
   </head>
 
   <body class="m-0 font-sans text-base antialiased font-normal dark:bg-slate-900 leading-default bg-gray-50 text-slate-500">
-<div class="absolute w-full bg-blue-500 dark:hidden min-h-75"></div>
+    <div class="absolute bg-y-50 w-full top-0 bg-[url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/profile-layout-header.jpg')] min-h-75">
+      <span class="absolute top-0 left-0 w-full h-full bg-blue-500 opacity-60"></span>
+    </div>
 @if(session('user')['jabatan'] == 'admin')
   <div class="style"> 
-    @include('projek2.style.dashboard.sidebar') 
+    @include('projek2.style.riwayat.sidebar') 
   </div>
 @elseif(session('user')['jabatan'] == 'manajer')
   <div class="style"> 
-    @include('projek2.style.dashboard.sidebar2') 
+    @include('projek2.style.riwayat.sidebar2') 
   </div>
 @elseif(session('user')['jabatan'] == 'karyawan')
   <div class="style"> 
-    @include('projek2.style.dashboard.sidebar3') 
+    @include('projek2.style.riwayat.sidebar3') 
   </div>
 @endif
   
@@ -58,8 +64,8 @@
       <!-- end Navbar -->
 
 
-        <div class="style"> 
-          @include('projek2.style.card') 
+        <div class="container"> 
+          @include('projek2.style.rekap') 
         </div>
       
     </main>
@@ -139,5 +145,4 @@
   <script src="./assets/js/plugins/perfect-scrollbar.min.js" async></script>
   <!-- main script file  -->
   <script src="./assets/js/argon-dashboard-tailwind.js?v=1.0.1" async></script>
-  
 </html>

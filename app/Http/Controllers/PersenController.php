@@ -6,9 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Absen;
 
-class UserController extends Controller
+class PersenController extends Controller
 {
 public function index(Request $request)
+
 {
     $search = $request->input('search');
      $sort = $request->input('sort', 'desc'); // default desc
@@ -23,7 +24,7 @@ public function index(Request $request)
         })
         ->paginate(10);
 
-    return view('projek2.table', compact('users', 'search', 'sort'));
+    return view('projek2.dashboard', compact('users', 'search', 'sort'));
     
 }
 

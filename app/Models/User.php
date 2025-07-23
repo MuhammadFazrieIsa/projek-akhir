@@ -51,6 +51,7 @@ class User extends Authenticatable
 public function absenTerbaru()
 {
     return $this->hasOne(\App\Models\Absen::class, 'rfid_uid', 'rfid_uid')->latestOfMany();
+    return $this->hasOne(Absen::class)->latest('tanggal');
 }
 
     
