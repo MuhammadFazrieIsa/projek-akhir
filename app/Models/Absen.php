@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+
 use Illuminate\Database\Eloquent\Model;
 
 class Absen extends Model
@@ -18,5 +19,11 @@ class Absen extends Model
     ];
 
     public $timestamps = false; // karena kita tidak pakai created_at dan updated_at
+
+    public function user()
+{
+    return $this->belongsTo(User::class, 'rfid_uid', 'rfid_uid');
+}
+
 }
 

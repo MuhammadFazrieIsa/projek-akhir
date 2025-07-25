@@ -13,7 +13,7 @@ class LoginSeeder extends Seeder
         DB::table('users')->insert([
             [
                 'name' => 'Yusuf',
-                'jabatan' => 'admin',
+                'jabatan' => 'Admin',
                 'password' => Hash::make('123'),
                 'rfid_uid' => 'A9F93E2',
                 'jenis_kelamin' => 'Laki-Laki',
@@ -22,7 +22,7 @@ class LoginSeeder extends Seeder
             ],
             [
                 'name' => 'Abdan',
-                'jabatan' => 'manajer',
+                'jabatan' => 'Manajer',
                 'password' => Hash::make('123'),
                 'rfid_uid' => 'EE7AC85',
                 'jenis_kelamin' => 'Laki-Laki',
@@ -31,7 +31,7 @@ class LoginSeeder extends Seeder
             ],
             [
                 'name' => 'Isa',
-                'jabatan' => 'karyawan',
+                'jabatan' => 'Karyawan',
                 'password' => Hash::make('123'),
                 'rfid_uid' => 'A156C85',
                 'jenis_kelamin' => 'Laki-Laki',
@@ -40,7 +40,7 @@ class LoginSeeder extends Seeder
             ],
             [
                 'name' => 'Jia',
-                'jabatan' => 'karyawan',
+                'jabatan' => 'Karyawan',
                 'password' => Hash::make('123'),
                 'rfid_uid' => '3AA4363',
                 'jenis_kelamin' => 'Perempuan',

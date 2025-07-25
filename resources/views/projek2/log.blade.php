@@ -32,10 +32,6 @@
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <!-- Main Styling -->
     <link href="./assets/css/argon-dashboard-tailwind.css?v=1.0.1" rel="stylesheet" />
-
-    <!-- buat csrf  -->
-     <meta name="csrf-token" content="{{ csrf_token() }}">
-
   </head>
 
   <body class="m-0 font-sans text-base antialiased font-normal dark:bg-slate-900 leading-default bg-gray-50 text-slate-500">
@@ -44,28 +40,28 @@
     </div>
 @if(session('user')['jabatan'] == 'Admin')
   <div class="style"> 
-    @include('projek2.style.riwayat.sidebar') 
+    @include('projek2.style.profile.sidebar') 
   </div>
 @elseif(session('user')['jabatan'] == 'Manajer')
   <div class="style"> 
-    @include('projek2.style.riwayat.sidebar2') 
+    @include('projek2.style.profile.sidebar2') 
   </div>
 @elseif(session('user')['jabatan'] == 'Karyawan')
   <div class="style"> 
-    @include('projek2.style.riwayat.sidebar3') 
+    @include('projek2.style.profile.sidebar3') 
   </div>
 @endif
   
     <main class="relative h-full max-h-screen transition-all duration-200 ease-in-out xl:ml-68 rounded-xl">
 
-      <div class="style"> 
+      <div class="style" style="margin-bottom: 50px;"> 
           @include('projek2.style.navbar') 
         </div>
       <!-- end Navbar -->
 
 
         <div class="container"> 
-          @include('projek2.style.rekap') 
+          @include('projek2.style.log') 
         </div>
       
     </main>

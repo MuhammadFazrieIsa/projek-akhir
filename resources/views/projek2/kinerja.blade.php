@@ -44,29 +44,81 @@
     </div>
 @if(session('user')['jabatan'] == 'Admin')
   <div class="style"> 
-    @include('projek2.style.riwayat.sidebar') 
+    @include('projek2.style.kinerja.sidebar') 
   </div>
 @elseif(session('user')['jabatan'] == 'Manajer')
   <div class="style"> 
-    @include('projek2.style.riwayat.sidebar2') 
-  </div>
-@elseif(session('user')['jabatan'] == 'Karyawan')
-  <div class="style"> 
-    @include('projek2.style.riwayat.sidebar3') 
+    @include('projek2.style.kinerja.sidebar2') 
   </div>
 @endif
   
     <main class="relative h-full max-h-screen transition-all duration-200 ease-in-out xl:ml-68 rounded-xl">
 
-      <div class="style"> 
+      <div class="style" style="margin-bottom: 50px;"> 
           @include('projek2.style.navbar') 
         </div>
       <!-- end Navbar -->
-
-
         <div class="container"> 
-          @include('projek2.style.rekap') 
+          @include('projek2.style.kinerja') 
         </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  const ctx = document.getElementById('fuzzyChart').getContext('2d');
+
+  const fuzzyChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: [0, 60, 75, 90, 100],
+      datasets: [
+        {
+          label: 'Kurang Baik',
+          data: [1, 1, 0, null, null],
+          borderColor: 'red',
+          fill: false,
+          spanGaps: true,
+        },
+        {
+          label: 'Cukup Baik',
+          data: [null, 0, 1, 0, null],
+          borderColor: 'orange',
+          fill: false,
+          spanGaps: true,
+        },
+        {
+          label: 'Baik',
+          data: [null, null, 0, 1, 1],
+          borderColor: 'green',
+          fill: false,
+          spanGaps: true,
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: 'Nilai'
+          }
+        },
+        y: {
+          min: 0,
+          max: 1.2,
+          title: {
+            display: true,
+            text: 'Derajat Keanggotaan'
+          }
+        }
+      }
+    }
+  });
+</script>
+
+
       
     </main>
     <div fixed-plugin>

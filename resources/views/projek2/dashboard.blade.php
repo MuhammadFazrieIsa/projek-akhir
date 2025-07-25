@@ -36,15 +36,15 @@
 
   <body class="m-0 font-sans text-base antialiased font-normal dark:bg-slate-900 leading-default bg-gray-50 text-slate-500">
 <div class="absolute w-full bg-blue-500 dark:hidden min-h-75"></div>
-@if(session('user')['jabatan'] == 'admin')
+@if(session('user')['jabatan'] == 'Admin')
   <div class="style"> 
     @include('projek2.style.dashboard.sidebar') 
   </div>
-@elseif(session('user')['jabatan'] == 'manajer')
+@elseif(session('user')['jabatan'] == 'Manajer')
   <div class="style"> 
     @include('projek2.style.dashboard.sidebar2') 
   </div>
-@elseif(session('user')['jabatan'] == 'karyawan')
+@elseif(session('user')['jabatan'] == 'Karyawan')
   <div class="style"> 
     @include('projek2.style.dashboard.sidebar3') 
   </div>

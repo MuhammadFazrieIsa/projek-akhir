@@ -9,11 +9,10 @@
                 <div class="flex flex-row -mx-3">
                   <div class="flex-none w-2/3 max-w-full px-3">
                     <div>
-                      <p class="mb-0 font-sans text-sm font-semibold leading-normal uppercase dark:text-white dark:opacity-60">Today's Money</p>
-                      <h5 class="mb-2 font-bold dark:text-white">$53,000</h5>
+                      <p class="mb-0 font-sans text-sm font-semibold leading-normal uppercase dark:text-white dark:opacity-60">Hadir Hari Ini</p>
+                      <h5 class="mb-2 font-bold dark:text-white">{{ $todayPresent }}</h5>
                       <p class="mb-0 dark:text-white dark:opacity-60">
-                        <span class="text-sm font-bold leading-normal text-emerald-500">+55%</span>
-                        since yesterday
+                        Dari Sekarang
                       </p>
                     </div>
                   </div>
@@ -35,10 +34,9 @@
                   <div class="flex-none w-2/3 max-w-full px-3">
                     <div>
                       <p class="mb-0 font-sans text-sm font-semibold leading-normal uppercase dark:text-white dark:opacity-60">Total Karyawan</p>
-                      <h5 class="mb-2 font-bold dark:text-white">{{ $users->total() }}</h5>
+                      <h5 class="mb-2 font-bold dark:text-white">{{ $totalUser }}</h5>
                       <p class="mb-0 dark:text-white dark:opacity-60">
-                        <span class="text-sm font-bold leading-normal text-emerald-500">+3%</span>
-                        since last week
+                        Sejak Lama
                       </p>
                     </div>
                   </div>
@@ -59,11 +57,10 @@
                 <div class="flex flex-row -mx-3">
                   <div class="flex-none w-2/3 max-w-full px-3">
                     <div>
-                      <p class="mb-0 font-sans text-sm font-semibold leading-normal uppercase dark:text-white dark:opacity-60">New Clients</p>
-                      <h5 class="mb-2 font-bold dark:text-white">+3,462</h5>
+                      <p class="mb-0 font-sans text-sm font-semibold leading-normal uppercase dark:text-white dark:opacity-60">Yang Terlambat</p>
+                      <h5 class="mb-2 font-bold dark:text-white">{{ $terlambatHariIni }}</h5>
                       <p class="mb-0 dark:text-white dark:opacity-60">
-                        <span class="text-sm font-bold leading-normal text-red-600">-2%</span>
-                        since last quarter
+                        Dari Sekarang
                       </p>
                     </div>
                   </div>
@@ -84,11 +81,10 @@
                 <div class="flex flex-row -mx-3">
                   <div class="flex-none w-2/3 max-w-full px-3">
                     <div>
-                      <p class="mb-0 font-sans text-sm font-semibold leading-normal uppercase dark:text-white dark:opacity-60">Sales</p>
-                      <h5 class="mb-2 font-bold dark:text-white">$103,430</h5>
+                      <p class="mb-0 font-sans text-sm font-semibold leading-normal uppercase dark:text-white dark:opacity-60">Tidak Hadir</p>
+                      <h5 class="mb-2 font-bold dark:text-white">{{ $tidakHadir }}</h5>
                       <p class="mb-0 dark:text-white dark:opacity-60">
-                        <span class="text-sm font-bold leading-normal text-emerald-500">+5%</span>
-                        than last month
+                        Dari Sekarang
                       </p>
                     </div>
                   </div>
@@ -108,10 +104,10 @@
           <div class="w-full max-w-full px-3 mt-0 lg:w-7/12 lg:flex-none">
             <div class="border-black/12.5 dark:bg-slate-850 dark:shadow-dark-xl shadow-xl relative z-20 flex min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border">
               <div class="border-black/12.5 mb-0 rounded-t-2xl border-b-0 border-solid p-6 pt-4 pb-0">
-                <h6 class="capitalize dark:text-white">Sales overview</h6>
+                <h6 class="capitalize dark:text-white">Presentasi Kehadiran Perbulan</h6>
                 <p class="mb-0 text-sm leading-normal dark:text-white dark:opacity-60">
                   <i class="fa fa-arrow-up text-emerald-500"></i>
-                  <span class="font-semibold">4% more</span> in 2021
+                  <span class="font-semibold"></span> 2025
                 </p>
               </div>
               <div class="flex-auto p-4">
@@ -174,139 +170,47 @@
             <div class="relative flex flex-col min-w-0 break-words bg-white border-0 border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl dark:bg-gray-950 border-black-125 rounded-2xl bg-clip-border">
               <div class="p-4 pb-0 mb-0 rounded-t-4">
                 <div class="flex justify-between">
-                  <h6 class="mb-2 dark:text-white">Sales by Country</h6>
+                  <h6 class="mb-2 dark:text-white">Kehadiran Awal</h6>
                 </div>
               </div>
               <div class="overflow-x-auto">
-                <table class="items-center w-full mb-4 align-top border-collapse border-gray-200 dark:border-white/40">
-                  <tbody>
-                    <tr>
-                      <td class="p-2 align-middle bg-transparent border-b w-3/10 whitespace-nowrap dark:border-white/40">
-                        <div class="flex items-center px-2 py-1">
-                          <div>
-                            <img src="./assets/img/icons/flags/US.png" alt="Country flag" />
-                          </div>
-                          <div class="ml-6">
-                            <p class="mb-0 text-xs font-semibold leading-tight dark:text-white dark:opacity-60">Country:</p>
-                            <h6 class="mb-0 text-sm leading-normal dark:text-white">United States</h6>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap dark:border-white/40">
-                        <div class="text-center">
-                          <p class="mb-0 text-xs font-semibold leading-tight dark:text-white dark:opacity-60">Sales:</p>
-                          <h6 class="mb-0 text-sm leading-normal dark:text-white">2500</h6>
-                        </div>
-                      </td>
-                      <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap dark:border-white/40">
-                        <div class="text-center">
-                          <p class="mb-0 text-xs font-semibold leading-tight dark:text-white dark:opacity-60">Value:</p>
-                          <h6 class="mb-0 text-sm leading-normal dark:text-white">$230,900</h6>
-                        </div>
-                      </td>
-                      <td class="p-2 text-sm leading-normal align-middle bg-transparent border-b whitespace-nowrap dark:border-white/40">
-                        <div class="flex-1 text-center">
-                          <p class="mb-0 text-xs font-semibold leading-tight dark:text-white dark:opacity-60">Bounce:</p>
-                          <h6 class="mb-0 text-sm leading-normal dark:text-white">29.9%</h6>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="p-2 align-middle bg-transparent border-b w-3/10 whitespace-nowrap dark:border-white/40">
-                        <div class="flex items-center px-2 py-1">
-                          <div>
-                            <img src="./assets/img/icons/flags/DE.png" alt="Country flag" />
-                          </div>
-                          <div class="ml-6">
-                            <p class="mb-0 text-xs font-semibold leading-tight dark:text-white dark:opacity-60">Country:</p>
-                            <h6 class="mb-0 text-sm leading-normal dark:text-white">Germany</h6>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap dark:border-white/40">
-                        <div class="text-center">
-                          <p class="mb-0 text-xs font-semibold leading-tight dark:text-white dark:opacity-60">Sales:</p>
-                          <h6 class="mb-0 text-sm leading-normal dark:text-white">3.900</h6>
-                        </div>
-                      </td>
-                      <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap dark:border-white/40">
-                        <div class="text-center">
-                          <p class="mb-0 text-xs font-semibold leading-tight dark:text-white dark:opacity-60">Value:</p>
-                          <h6 class="mb-0 text-sm leading-normal dark:text-white">$440,000</h6>
-                        </div>
-                      </td>
-                      <td class="p-2 text-sm leading-normal align-middle bg-transparent border-b whitespace-nowrap dark:border-white/40">
-                        <div class="flex-1 text-center">
-                          <p class="mb-0 text-xs font-semibold leading-tight dark:text-white dark:opacity-60">Bounce:</p>
-                          <h6 class="mb-0 text-sm leading-normal dark:text-white">40.22%</h6>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="p-2 align-middle bg-transparent border-b w-3/10 whitespace-nowrap dark:border-white/40">
-                        <div class="flex items-center px-2 py-1">
-                          <div>
-                            <img src="./assets/img/icons/flags/GB.png" alt="Country flag" />
-                          </div>
-                          <div class="ml-6">
-                            <p class="mb-0 text-xs font-semibold leading-tight dark:text-white dark:opacity-60">Country:</p>
-                            <h6 class="mb-0 text-sm leading-normal dark:text-white">Great Britain</h6>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap dark:border-white/40">
-                        <div class="text-center">
-                          <p class="mb-0 text-xs font-semibold leading-tight dark:text-white dark:opacity-60">Sales:</p>
-                          <h6 class="mb-0 text-sm leading-normal dark:text-white">1.400</h6>
-                        </div>
-                      </td>
-                      <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap dark:border-white/40">
-                        <div class="text-center">
-                          <p class="mb-0 text-xs font-semibold leading-tight dark:text-white dark:opacity-60">Value:</p>
-                          <h6 class="mb-0 text-sm leading-normal dark:text-white">$190,700</h6>
-                        </div>
-                      </td>
-                      <td class="p-2 text-sm leading-normal align-middle bg-transparent border-b whitespace-nowrap dark:border-white/40">
-                        <div class="flex-1 text-center">
-                          <p class="mb-0 text-xs font-semibold leading-tight dark:text-white dark:opacity-60">Bounce:</p>
-                          <h6 class="mb-0 text-sm leading-normal dark:text-white">23.44%</h6>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="p-2 align-middle bg-transparent border-0 w-3/10 whitespace-nowrap">
-                        <div class="flex items-center px-2 py-1">
-                          <div>
-                            <img src="./assets/img/icons/flags/BR.png" alt="Country flag" />
-                          </div>
-                          <div class="ml-6">
-                            <p class="mb-0 text-xs font-semibold leading-tight dark:text-white dark:opacity-60">Country:</p>
-                            <h6 class="mb-0 text-sm leading-normal dark:text-white">Brasil</h6>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="p-2 align-middle bg-transparent border-0 whitespace-nowrap">
-                        <div class="text-center">
-                          <p class="mb-0 text-xs font-semibold leading-tight dark:text-white dark:opacity-60">Sales:</p>
-                          <h6 class="mb-0 text-sm leading-normal dark:text-white">562</h6>
-                        </div>
-                      </td>
-                      <td class="p-2 align-middle bg-transparent border-0 whitespace-nowrap">
-                        <div class="text-center">
-                          <p class="mb-0 text-xs font-semibold leading-tight dark:text-white dark:opacity-60">Value:</p>
-                          <h6 class="mb-0 text-sm leading-normal dark:text-white">$143,960</h6>
-                        </div>
-                      </td>
-                      <td class="p-2 text-sm leading-normal align-middle bg-transparent border-0 whitespace-nowrap">
-                        <div class="flex-1 text-center">
-                          <p class="mb-0 text-xs font-semibold leading-tight dark:text-white dark:opacity-60">Bounce:</p>
-                          <h6 class="mb-0 text-sm leading-normal dark:text-white">32.14%</h6>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+  <table class="items-center w-full mb-4 align-top border-collapse border-gray-200 dark:border-white/40">
+    <thead>
+      <tr>
+        <th class="p-2 text-left text-sm font-bold dark:text-white">Name</th>
+        <th class="p-2 text-center text-sm font-bold dark:text-white">Tanggal</th>
+        <th class="p-2 text-center text-sm font-bold dark:text-white">Kedatangan</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach($absens as $absen)
+      <tr>
+        <td class="p-2 bg-transparent border-b dark:border-white/40">
+          <div class="flex items-center px-2 py-1">
+            <div>
+              <img src="https://ui-avatars.com/api/?name={{ urlencode($absen->user->name ?? 'Unknown') }}" class="w-8 h-8 rounded-full" alt="avatar">
+            </div>
+            <div class="ml-4">
+              <p class="text-sm dark:text-white">{{ $absen->user->name ?? '-' }}</p>
+            </div>
+          </div>
+        </td>
+        <td class="p-2 text-center border-b dark:border-white/40 text-sm dark:text-white">
+          {{ $absen->tanggal }}
+        </td>
+        <td class="p-2 text-center border-b dark:border-white/40 text-sm dark:text-white">
+          {{ $absen->kedatangan }}
+        </td>
+      </tr>
+      @endforeach
+    </tbody>
+  </table>
+
+  <div class="mt-4">
+    {{ $absens->links() }}
+  </div>
+</div>
+
             </div>
           </div>
           <div class="w-full max-w-full px-3 mt-0 lg:w-5/12 lg:flex-none">

@@ -36,11 +36,11 @@ public function login(Request $request)
 
     // Redirect based on jabatan
     switch ($user->jabatan) {
-        case 'admin':
+        case 'Admin':
             return redirect()->route('dashboard');
-        case 'manajer':
+        case 'Manajer':
             return redirect()->route('dashboard2');
-        case 'karyawan':
+        case 'Karyawan':
             return redirect()->route('dashboard3');
         default:
             return redirect()->route('login')->withErrors(['jabatan' => 'Jabatan Tidak Ada.']);

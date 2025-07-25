@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         $this->call(LoginSeeder::class);
-        $this->call(DataAbsenSeeder::class);
+        $this->call(DataAbsen::class);
 
 
         //User::factory()->create([

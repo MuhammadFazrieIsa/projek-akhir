@@ -54,5 +54,25 @@ public function absenTerbaru()
     return $this->hasOne(Absen::class)->latest('tanggal');
 }
 
+    public function absen()
+    {
+        return $this->hasMany(Absen::class, 'rfid_uid', 'rfid_uid');
+    }
+
+    public function nilaiKinerja()
+    {
+        return $this->hasMany(NilaiKinerja::class, 'rfid_uid', 'rfid_uid');
+    }
+
+    public function nilaiKehadiran()
+    {
+        return $this->hasMany(NilaiKehadiran::class, 'rfid_uid', 'rfid_uid');
+    }
+
+    public function nilaiKedisiplinan()
+    {
+        return $this->hasMany(NilaiKedisiplinan::class, 'rfid_uid', 'rfid_uid');
+    }
+
     
 }

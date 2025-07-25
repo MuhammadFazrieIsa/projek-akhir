@@ -20,19 +20,35 @@
                     </a>
                   </li>
                   <li>
-                    @if(session('user')['jabatan'] == 'admin')
+                    @if(session('user')['jabatan'] == 'Admin')
+                        <a class="block px-4 py-2 mr-2 font-normal transition-all ease-in-out lg-max:opacity-0 duration-250 text-sm text-slate-700 lg:px-2"
+                          href="{{ route('log') }}">
+                            <i class="mr-1 fa fa-user opacity-60"></i>
+                            Log
+                        </a>
+                    @elseif(session('user')['jabatan'] == 'Manajer')
+                        <a class="block px-4 py-2 mr-2 font-normal transition-all ease-in-out lg-max:opacity-0 duration-250 text-sm text-slate-700 lg:px-2"
+                          href="{{ route('log') }}">
+                            <i class="mr-1 fa fa-user opacity-60"></i>
+                            Log
+                        </a>
+                    @elseif(session('user')['jabatan'] == 'Karyawan')
+                    @endif
+                </li>
+                  <li>
+                    @if(session('user')['jabatan'] == 'Admin')
                         <a class="block px-4 py-2 mr-2 font-normal transition-all ease-in-out lg-max:opacity-0 duration-250 text-sm text-slate-700 lg:px-2"
                           href="{{ route('profil') }}">
                             <i class="mr-1 fa fa-user opacity-60"></i>
                             Profile
                         </a>
-                    @elseif(session('user')['jabatan'] == 'manajer')
+                    @elseif(session('user')['jabatan'] == 'Manajer')
                         <a class="block px-4 py-2 mr-2 font-normal transition-all ease-in-out lg-max:opacity-0 duration-250 text-sm text-slate-700 lg:px-2"
                           href="{{ route('profil2') }}">
                             <i class="mr-1 fa fa-user opacity-60"></i>
                             Profile
                         </a>
-                    @elseif(session('user')['jabatan'] == 'karyawan')
+                    @elseif(session('user')['jabatan'] == 'Karyawan')
                         <a class="block px-4 py-2 mr-2 font-normal transition-all ease-in-out lg-max:opacity-0 duration-250 text-sm text-slate-700 lg:px-2"
                           href="{{ route('profil3') }}">
                             <i class="mr-1 fa fa-user opacity-60"></i>

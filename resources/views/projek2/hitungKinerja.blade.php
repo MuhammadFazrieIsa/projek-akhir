@@ -42,17 +42,13 @@
     <div class="absolute bg-y-50 w-full top-0 bg-[url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/profile-layout-header.jpg')] min-h-75">
       <span class="absolute top-0 left-0 w-full h-full bg-blue-500 opacity-60"></span>
     </div>
-@if(session('user')['jabatan'] == 'admin')
+@if(session('user')['jabatan'] == 'Admin')
   <div class="style"> 
     @include('projek2.style.riwayat.sidebar') 
   </div>
-@elseif(session('user')['jabatan'] == 'manajer')
+@elseif(session('user')['jabatan'] == 'Manajer')
   <div class="style"> 
     @include('projek2.style.riwayat.sidebar2') 
-  </div>
-@elseif(session('user')['jabatan'] == 'karyawan')
-  <div class="style"> 
-    @include('projek2.style.riwayat.sidebar3') 
   </div>
 @endif
   
@@ -181,6 +177,7 @@
     }
   });
 </script>
+
 
       
     </main>

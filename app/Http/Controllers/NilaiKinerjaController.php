@@ -375,7 +375,132 @@ private function fuzzyStatusKinerja($x)
 
 public function nilaiKinerja(){
     $datas = NilaiKinerja::with('user')->get();
-    return view('projek2.style.nilaiKinerja', compact('datas'));
+    return view('projek2.kinerja', compact('datas'));
+}
+
+public function gabunganNilai(Request $request)
+{
+    $users = User::all();
+    $dataSemuaUser = [];
+
+    $bulan = $request->input('bulan', now()->month);
+    $tahun = $request->input('tahun', now()->year);
+
+    foreach ($users as $user) {
+        $userId = $user->rfid_uid;
+
+        // ============ HITUNG NILAI KEDISIPLINAN ===============
+        $absensi = Absen::where('rfid_uid', $userId)
+            ->whereMonth('tanggal', $bulan)
+            ->whereYear('tanggal', $tahun)
+            ->get();
+
+        $lebihAwal = $absensi->where('status_kedatangan', 'Lebih Awal')->count();
+        $tepatWaktu = $absensi->where('status_kedatangan', 'Tepat Waktu')->count();
+        $sedikitTerlambat = $absensi->where('status_kedatangan', 'Sedikit Terlambat')->count();
+        $terlambat = $absensi->where('status_kedatangan', 'Terlambat')->count();
+
+        $jumlahKeseluruhan = 
+            (1 * $lebihAwal) +
+            (0.8 * $tepatWaktu) +
+            (0.5 * $sedikitTerlambat) +
+            (0 * $terlambat);
+
+        $jumlahHari = $absensi->where('status_kehadiran', 'Hadir')->count();
+
+        $nilaiKurangDisiplin = $this->fuzzyKurangDisiplin($jumlahKeseluruhan, $jumlahHari);
+        $nilaiCukupDisiplin  = $this->fuzzyCukupDisiplin($jumlahKeseluruhan, $jumlahHari);
+        $nilaiDisiplin       = $this->fuzzyDisiplin($jumlahKeseluruhan, $jumlahHari);
+
+        $kedisiplinan = NilaiKedisiplinan::updateOrCreate(
+            ['rfid_uid' => $userId, 'bulan' => $bulan, 'tahun' => $tahun],
+            [
+                'lebih_awal' => $lebihAwal,
+                'tepat_waktu' => $tepatWaktu,
+                'agak_terlambat' => $sedikitTerlambat,
+                'terlambat' => $terlambat,
+                'jumlah_keseluruhan' => $jumlahKeseluruhan,
+                'nilai_kurang_disiplin' => $nilaiKurangDisiplin,
+                'nilai_cukup_disiplin' => $nilaiCukupDisiplin,
+                'nilai_disiplin' => $nilaiDisiplin,
+            ]
+        );
+
+        // ============ HITUNG NILAI KINERJA ===============
+
+        $kehadiran = NilaiKehadiran::where('rfid_uid', $userId)
+            ->where('bulan', $bulan)
+            ->where('tahun', $tahun)
+            ->first();
+
+        if (!$kehadiran || !$kedisiplinan) {
+            continue; // lewati user ini jika data belum lengkap
+        }
+
+        $rules = [
+            ['k' => 'nilai_baik',        'd' => 'nilai_disiplin',         'output' => 'baik'],
+            ['k' => 'nilai_baik',        'd' => 'nilai_cukup_disiplin',   'output' => 'baik'],
+            ['k' => 'nilai_baik',        'd' => 'nilai_kurang_disiplin',  'output' => 'cukup_baik'],
+            ['k' => 'nilai_cukup_baik',  'd' => 'nilai_disiplin',         'output' => 'cukup_baik'],
+            ['k' => 'nilai_cukup_baik',  'd' => 'nilai_cukup_disiplin',   'output' => 'cukup_baik'],
+            ['k' => 'nilai_cukup_baik',  'd' => 'nilai_kurang_disiplin',  'output' => 'kurang_baik'],
+            ['k' => 'nilai_kurang_baik', 'd' => 'nilai_disiplin',         'output' => 'cukup_baik'],
+            ['k' => 'nilai_kurang_baik', 'd' => 'nilai_cukup_disiplin',   'output' => 'kurang_baik'],
+            ['k' => 'nilai_kurang_baik', 'd' => 'nilai_kurang_disiplin',  'output' => 'kurang_baik'],
+        ];
+
+        $outputZ = [
+            'baik' => fn($mu) => $mu > 0 ? 75 + (15 * $mu) : 0,
+            'cukup_baik' => fn($mu) => $mu > 0 ? ((60 + (15 * $mu)) + (90 - (15 * $mu))) / 2 : 0,
+            'kurang_baik' => fn($mu) => $mu > 0 ? 60 + (15 * $mu) : 0
+        ];
+
+        $numerator = 0;
+        $denominator = 0;
+        $ruleResults = [];
+
+        foreach ($rules as $index => $rule) {
+            $muKehadiran = $kehadiran->{$rule['k']};
+            $muDisiplin = $kedisiplinan->{$rule['d']};
+            $mu = min($muKehadiran, $muDisiplin);
+            $z = $outputZ[$rule['output']]($mu);
+
+            $ruleResults['rule_' . ($index + 1)] = $mu;
+            $numerator += $mu * $z;
+            $denominator += $mu;
+        }
+
+        $zFinal = $denominator > 0 ? $numerator / $denominator : 0;
+
+        $status = match (true) {
+            $zFinal >= 90 => 'Baik',
+            $zFinal > 60  => 'Cukup Baik',
+            default       => 'Kurang Baik'
+        };
+
+        $data = NilaiKinerja::updateOrCreate(
+            ['rfid_uid' => $userId, 'bulan' => $bulan, 'tahun' => $tahun],
+            array_merge($ruleResults, [
+                'nilai_defuzzifikasi' => $zFinal,
+                'status' => $status
+            ])
+        );
+
+        $dataSemuaUser[] = $data;
+    }
+
+    $datas = NilaiKinerja::with('user')
+        ->where('bulan', $bulan)
+        ->where('tahun', $tahun)
+        ->get();
+
+    return view('projek.kedisiplinan', compact('datas', 'bulan', 'tahun'))
+        ->with('success', 'Nilai kedisiplinan dan kinerja berhasil direkap.');
+}
+
+public function nilaiAbsensi (){
+    $datas = Absen::with('user')->get();
+    return view('projek2.log', compact('datas'));
 }
 
 }
