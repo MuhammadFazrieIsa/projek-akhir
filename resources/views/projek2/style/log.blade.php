@@ -22,14 +22,6 @@
                       <tr>
                         <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
                           <div class="flex px-2 py-1">
-                                @php
-                                    $iconUrl =  $data->user->jenis_kelamin === 'Laki-Laki'
-                                        ? 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png'
-                                        : 'https://cdn-icons-png.flaticon.com/512/4140/4140051.png';
-                                @endphp
-                            <div>
-                              <img src="{{ $iconUrl }}" width="36" height="36" alt="Icon" class="inline-flex items-center justify-center mr-2 text-sm text-white transition-all duration-200 ease-in-out rounded-full h-9 w-9" />
-                            </div>
                             <div class="flex flex-col justify-center">
                               <h6 class="mb-0 text-sm leading-normal dark:text-white">{{ $data->user->name ?? '-' }}</h6>
                             </div>
